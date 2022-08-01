@@ -12,29 +12,36 @@ declare global {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-    <Script strategy='afterInteractive' id="pixel-sdk" dangerouslySetInnerHTML={{
-      __html: `
-        (function () {
-          var script = document.createElement('script');
-  
-          script.type = 'text/javascript';
-          script.async = true;
-          script.src = 'https://d39k0bjfwb8suf.cloudfront.net/sdk.js';
-          script.crossOrigin = 'anonymous'
-  
-          var x = document.getElementsByTagName('script')[0];
-          x.parentNode.insertBefore(script, x);
-        })();
-  
-        window.adstartAsyncInit = function () {
-          adstart.init({
-            pixelId: 'PIXEL_ID2s',
-            isInDebugMode: true,
-          })
-        }
-      `
-    }} />
-    <Component {...pageProps} />
+      <Script strategy='afterInteractive' id="pixel-sdk" dangerouslySetInnerHTML={{
+        __html: `
+          !(function (window, document, tag, src, n, t, s) {
+            if (window.adstart) return;
+    
+            n = window.adstart = function () {
+              n.queue.push(arguments);
+            };
+    
+            n.push = n;
+            n.queue = [];
+    
+            t = document.createElement(tag);
+            t.async = !0;
+            t.src = src;
+    
+            s = document.getElementsByTagName(tag)[0];
+            s.parentNode.insertBefore(t, s);
+          })(
+            window,
+            document,
+            "script",
+            // "https://adstart-pixel.s3.sa-east-1.amazonaws.com/sdk.js"
+            "http://localhost:3001/pixel/sdk.js"
+            // "https://d39k0bjfwb8suf.cloudfront.net/sdk.js",
+          );
+          adstart('init', 'PIXEL_ID2s', true);
+        `
+      }} />
+      <Component {...pageProps} />
     </>
   )
 }

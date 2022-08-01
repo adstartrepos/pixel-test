@@ -11,9 +11,18 @@ const Home: NextPage = () => {
   function handleLoginUser() {
     let email = "vinicius@adstart.com.br"
 
-    window.adstart.loginUser({ email }, () => {
-
-    })
+    window.adstart.loginUser({ 
+      email,
+      other_unique_identifier: 'UUID_DOS_GURI_DO_GREMIO',
+      phone: "+55 47 9 99 99999 999999",
+      gender: 'male',
+      first_name: 'Joao',
+      last_name: 'Kepsler',
+      zip_code: '90050000',
+      state: 'SC',
+      birthday: new Date().toISOString(),
+      country: 'BR',
+    }, () => { })
   }
 
   return (
